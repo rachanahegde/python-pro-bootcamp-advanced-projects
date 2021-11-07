@@ -2,11 +2,4 @@
 
 <h2> Day 71: Data Exploration with Pandas: College Major v.s. Your Salary </h2>
 
-Learn Data Exploration with Pandas by Analysing the Post-University Salaries of Graduates by Major
-
-Topics covered
--	How to explore a Pandas DataFrame
--	How to detect NaN (not a number) values and clean your data
--	How to select particular columns, rows, and individual cells
--	How to sort your data
--	How to group data by category
+This project involved learning about data exploration with Pandas by analysing the post-university salaries of graduates by major. Topics covered include cleaning data, selecting columns/rows/cells, sorting data and grouping data by category.
