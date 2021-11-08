@@ -5,7 +5,7 @@
 This project involved learning about data exploration with Pandas by analysing the post-university salaries of graduates by major. Topics covered include cleaning data, selecting columns/rows/cells, sorting data and grouping data by category.
 
 <h2> Day 72: Data Visualisation with Matplotlib: Programming Languages </h2>
-Analyse the Popularity of Different Programming Languages over Time
+This project involved analysing the popularity of different programming languages over time using the tags on Stack Overflow posts.
 
 Today you will learn:
 
