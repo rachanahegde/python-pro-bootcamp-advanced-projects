@@ -6,6 +6,10 @@ Using Jinja, Flask, and Bootstrap, I built a multi-page blog website with an int
 <h2> Day 60: Making POST Requests with Flask and HTML Forms </h2>
 I learned about how HTML forms work and how to email myself the form submitted by a user on my blog website.
 
+<h2> Day 61: Building Advanced Forms with Flask-WTForms </h2>
+I learned to build forms on my website using a Flask extension called Flask-WTF.
+
+
 <h2> Day 71: Data Exploration with Pandas: College Major v.s. Your Salary </h2>
 This project involved learning about data exploration with Pandas by analysing the post-university salaries of graduates by major. Topics covered include cleaning data, selecting columns/rows/cells, sorting data and grouping data by category.
 
