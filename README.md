@@ -12,6 +12,9 @@ I learned to build forms on my website using a Flask extension called Flask-WTF 
 <h2> Day 62: Coffee & Wifi Project </h2>
 I used Flask, WTForms, Bootstrap and CSV to build the backend for a website that features a database of cafes with information on wifi speed, coffee quality, etc.
 
+<h2> Day 63: Creating a Virtual Bookshelf </h2>
+I built a virtual bookshelf by learning how to create an SQLite database and how to create, read, update and delete data in the database. I connected this database to a Flask application to serve data whenever needed.
+
 <h2> Day 71: Data Exploration with Pandas: College Major v.s. Your Salary </h2>
 This project involved learning about data exploration with Pandas by analysing the post-university salaries of graduates by major. Topics covered include cleaning data, selecting columns/rows/cells, sorting data and grouping data by category.
 
