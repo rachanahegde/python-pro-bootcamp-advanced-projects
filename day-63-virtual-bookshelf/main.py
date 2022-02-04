@@ -7,13 +7,11 @@ all_books = []
 
 @app.route('/')
 def home():
-    global all_books
     return render_template('index.html', books=all_books)
 
 
 @app.route('/add', methods=['GET', 'POST'])
 def add():
-    global all_books
     # Add book details as a dictionary object to the all_books list
     if request.method == 'POST':
         new_book = {
