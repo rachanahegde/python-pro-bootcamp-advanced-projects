@@ -44,7 +44,9 @@ db.create_all()
 
 
 # Create a new record in the books table
-new_book = Book(id=1, title='Harry Potter', author='J.K. Rowling', rating=9.3)
-db.session.add(new_book)
-db.session.commit()
+# new_book = Book(title='Harry Potter', author='J.K. Rowling', rating=9.3)
+# db.session.add(new_book)
+# db.session.commit()
 
+all_books = db.session.query(Book).all()
+print(Book.query.filter_by(title="Harry Potter").first())
