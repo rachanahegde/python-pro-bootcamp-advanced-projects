@@ -5,9 +5,10 @@
     <title>Edit Rating</title>
 </head>
 <body>
-    <p> Book Name: {{ library.query.get(book_id).title }} </p>
-    <p> Current Rating: {{ library.query.get(book_id).rating }} </p>
     <form action=" {{ url_for('edit_rating') }} " method="POST">
+        <p> Book Name: {{ library.query.get(book_id).title }} </p>
+        <p> Current Rating: {{ library.query.get(book_id).rating }} </p>
+        <input hidden="hidden" name="id" value="{{ book_id }}">
         <input type="text" name="new_rating" placeholder="New Rating" >
         <button type="submit">Change Rating</button>
     </form>
