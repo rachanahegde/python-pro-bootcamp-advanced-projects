@@ -10,9 +10,10 @@
         <p>Library is empty.</p>
     {% endif %}
     <ul>
-        <!--   List book data entered into the form    -->
+        <!--   View book data entered into the form    -->
         {% for book in books %}
-        <li> {{ book['title'] }} - {{ book['author'] }} - {{ book['rating'] }} </li>
+        <li> {{ book['title'] }} - {{ book['author'] }} - {{ book['rating'] }}/10
+            <a href=" {{ url_for('edit_rating',id=book['id']) }} ">Edit Rating</a>  </li>
         {% endfor %}
     </ul>
 
