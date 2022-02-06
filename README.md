@@ -15,6 +15,9 @@ I used Flask, WTForms, Bootstrap and CSV to build the backend for a website that
 <h2> Day 63: Creating a Virtual Bookshelf </h2>
 I built a virtual bookshelf by learning how to create an SQLite database and how to create, read, update and delete data in the database. I connected this database to my Flask website to serve data when needed.
 
+<h2> Day 64: My Top 10 Movies Website </h2>
+I built a top 10 movies website using Flask, WTForms, SQLite, and SQLAlchemy. It lists my top 10 films and I can update it to keep track of  which movies to recommend people.
+
 <h2> Day 71: Data Exploration with Pandas: College Major v.s. Your Salary </h2>
 This project involved learning about data exploration with Pandas by analysing the post-university salaries of graduates by major. Topics covered include cleaning data, selecting columns/rows/cells, sorting data and grouping data by category.
 
