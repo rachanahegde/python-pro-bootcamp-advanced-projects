@@ -28,7 +28,7 @@ def home():
     # Read all records
     return render_template('index.html', books=Library.query.all())
 
-
+# Delete a record from the table
 @app.route('/delete')
 def delete():
     book_id = request.args.get('id')
@@ -37,10 +37,9 @@ def delete():
     db.session.commit()
     return redirect(url_for('home'))
 
-
+# Create a new record in the library table
 @app.route('/add', methods=['GET', 'POST'])
 def add():
-    # Create a new record in the library table
     if request.method == 'POST':
         new_book = Library(title=request.form['title'], author=request.form['author'], rating=request.form['rating'])
         db.session.add(new_book)
@@ -50,7 +49,7 @@ def add():
         return redirect(url_for('home'))
     return render_template('add.html')
 
-
+# Edit a record in the Library table
 @app.route('/edit', methods=['GET', 'POST'])
 def edit_rating():
     if request.method == 'POST':
