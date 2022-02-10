@@ -49,10 +49,25 @@ db.create_all()
 # db.session.commit()
 
 
+# Display movies on the home page
 @app.route("/")
 def home():
-    # Display movies 
     return render_template("index.html", movies=Movies.query.all())
+
+# Edit movie
+@app.route("/edit", methods=["GET", "POST"])
+def edit_movie():
+    if request.method == "POST":
+        movie_id = request.form['id']
+        movie_to_update = Movies.query.get(movie_id)
+        movie_to_update.rating = request.form['new_rating']
+        movie_to_update.review = request.form['review']
+        db.session.commit()
+        return(redirect(url_for("home")))
+    movie_id = request.args.get("id")
+    movie_to_edit = Movies.query.get(movie_id)
+    return render_template("edit.html", movie=movie_to_edit)
+
 
 
 if __name__ == '__main__':
