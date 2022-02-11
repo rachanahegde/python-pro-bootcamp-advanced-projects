@@ -2,9 +2,11 @@ from flask import Flask, render_template, redirect, url_for, request
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
+from wtforms import StringField, SubmitField, HiddenField
 from wtforms.validators import DataRequired
 import requests
+
+TMDB_API_KEY = ""
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
@@ -48,27 +50,71 @@ db.create_all()
 # db.session.add(new_movie)
 # db.session.commit()
 
+# Form for editing movie rating and review
+class RateMovieForm(FlaskForm):
+    rating = StringField('Your Rating Out of 10')
+    review = StringField('Your Review')
+    submit = SubmitField('Done')
+
+# Form for adding new movie
+class AddMovieForm(FlaskForm):
+    title = StringField("Movie Title", validators=[DataRequired()])
+    submit = SubmitField("Add Movie")
 
 # Display movies on the home page
 @app.route("/")
 def home():
     return render_template("index.html", movies=Movies.query.all())
 
-# Edit movie
+# Edit movie rating and review
 @app.route("/edit", methods=["GET", "POST"])
 def edit_movie():
-    if request.method == "POST":
-        movie_id = request.form['id']
-        movie_to_update = Movies.query.get(movie_id)
-        movie_to_update.rating = request.form['new_rating']
-        movie_to_update.review = request.form['review']
-        db.session.commit()
-        return(redirect(url_for("home")))
     movie_id = request.args.get("id")
     movie_to_edit = Movies.query.get(movie_id)
-    return render_template("edit.html", movie=movie_to_edit)
+    rate_movie_form = RateMovieForm(id=movie_id)
+    if rate_movie_form.validate_on_submit():
+        movie_to_edit.rating = float(rate_movie_form.rating.data)
+        movie_to_edit.review = rate_movie_form.review.data
+        db.session.commit()
+        return(redirect(url_for("home")))
+    return render_template("edit.html", movie=movie_to_edit, form=rate_movie_form)
 
+# Delete movie from the database
+@app.route("/delete")
+def delete():
+    movie_id = request.args.get("id")
+    movie_to_delete = Movies.query.get(movie_id)
+    db.session.delete(movie_to_delete)
+    db.session.commit()
+    return redirect(url_for("home"))
 
+# Add movie to the website
+@app.route("/add", methods=["GET", "POST"])
+def add_movie():
+    add_movie_form = AddMovieForm()
+    if add_movie_form.validate_on_submit():
+        title = add_movie_form.title.data
+        response = requests.get('https://api.themoviedb.org/3/search/movie?api_key=' + TMDB_API_KEY + '&query=' + title)
+        data = response.json()["results"]
+        return render_template("select.html", movies=data)
+    return render_template("add.html", form=add_movie_form)  
+
+# Select movie, get data from TMDB API, and add movie to database
+@app.route("/find", methods=["GET", "POST"])
+def find_movie():
+    movie_id = request.args.get("id")
+    response = requests.get(f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={TMDB_API_KEY}")
+    data = response.json()
+    new_movie = Movies(
+        title=data["title"],
+        year=data["release_date"].split("-")[0],
+        description=data["overview"],
+        img_url=f"https://image.tmdb.org/t/p/original/{data['poster_path']}",
+    )
+    db.session.add(new_movie)
+    db.session.commit()
+    movie_record = Movies.query.filter_by(title=data["title"])
+    return redirect(url_for("edit_movie", id=movie_record.id))
 
 if __name__ == '__main__':
     app.run(debug=True)
