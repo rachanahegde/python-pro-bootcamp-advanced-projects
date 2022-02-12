@@ -61,7 +61,7 @@ class AddMovieForm(FlaskForm):
     title = StringField("Movie Title", validators=[DataRequired()])
     submit = SubmitField("Add Movie")
 
-# Display movies on the home page
+# Display movies on the home page based on ranking which is determined by rating
 @app.route("/")
 def home():
     return render_template("index.html", movies=Movies.query.all())
@@ -113,7 +113,8 @@ def find_movie():
     )
     db.session.add(new_movie)
     db.session.commit()
-    movie_record = Movies.query.filter_by(title=data["title"])
+    # Find the movie record in the Movies database 
+    movie_record = Movies.query.filter_by(title=data["title"]).first()
     return redirect(url_for("edit_movie", id=movie_record.id))
 
 if __name__ == '__main__':
