@@ -64,7 +64,16 @@ class AddMovieForm(FlaskForm):
 # Display movies on the home page based on ranking which is determined by rating
 @app.route("/")
 def home():
-    return render_template("index.html", movies=Movies.query.all())
+    # Create a list of all the movies sorted by rating
+    all_movies = Movies.query.order_by(Movies.rating).all()
+
+    # Update the movie ranking by looping through all_movies list
+    for i in range(len(all_movies)):
+        #Give each movie a new ranking reversed from their order in all_movies
+        all_movies[i].ranking = len(all_movies) - i
+
+    db.session.commit()
+    return render_template("index.html", movies=all_movies)
 
 # Edit movie rating and review
 @app.route("/edit", methods=["GET", "POST"])
