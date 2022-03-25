@@ -26,4 +26,5 @@ This project involved learning about data exploration with Pandas by analysing t
 <h2> Day 72: Data Visualisation with Matplotlib: Programming Languages </h2>
 This project involved analysing the popularity of different programming languages over time using the tags on Stack Overflow posts. During this project I learned about visualising data and creating charts with Matplotlib, how to pivot, group and manipulate my data with Pandas, working with timestamps and time-series data, and how to style and customise a line chart.
 
-<h2> Day 73: </h2>
+<h2> Day 73: Aggregate & Merge Data with Pandas: Analyse the LEGO Dataset </h2>
+I analysed a dataset of LEGO Pieces. During this process, I learned about combining a Notebook with HTML Markup, applying Python list slicing techniques to Pandas DataFrames, aggregating data, creating scatter plots, bar charts, and line charts with two axes in Matplotlib. I also studied  database schemas organised by primary and foreign keys as well as merging DataFrames that share a common key.
