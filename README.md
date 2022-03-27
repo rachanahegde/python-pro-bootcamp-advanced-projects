@@ -28,3 +28,7 @@ This project involved analysing the popularity of different programming language
 
 <h2> Day 73: Aggregate & Merge Data with Pandas: Analyse the LEGO Dataset </h2>
 I analysed a dataset of LEGO Pieces. During this process, I learned about combining a Notebook with HTML Markup, applying Python list slicing techniques to Pandas DataFrames, aggregating data, creating scatter plots, bar charts, and line charts with two axes in Matplotlib. I also studied  database schemas organised by primary and foreign keys as well as merging DataFrames that share a common key.
+
+<h2> Day 74: Google Trends Data: Resampling and Visualising Time Series </h2>
+
+Another jam-packed day! I learned about making time-series data comparable by resampling and converting to the same periodicity, styling Matplotlib charts, using grids to identify seasonality in a time series, finding missing and NaN values, working with Locators to better style the time axis on a chart. I worked with Google trends data that gives access to the popularity of Google Search terms.
