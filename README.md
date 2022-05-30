@@ -18,7 +18,8 @@ I built a virtual bookshelf by learning how to create an SQLite database and how
 <h2> Day 64: My Top 10 Movies Website </h2>
 I built a top 10 movies website using Flask, WTForms, SQLite, and SQLAlchemy. It lists my top 10 films and I can update it to keep track of  which movies to recommend people.
 
-<h2> Note: Skipped Days 65-70 To Return To Later </h2>
+<h2> Day 66: Building Your Own API with RESTful Routing</h2>
+I learned to build a REST API from scratch using Flask.
 
 <h2> Day 71: Data Exploration with Pandas: College Major v.s. Your Salary </h2>
 This project involved learning about data exploration with Pandas by analysing the post-university salaries of graduates by major. Topics covered include cleaning data, selecting columns/rows/cells, sorting data and grouping data by category.
