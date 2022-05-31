@@ -40,21 +40,26 @@ def get_random_cafe():
     # Turn the random_cafe SQLAlchemy Object into a JSON through serialization.
     # Use Flask's serialisation helper method called jsonify() and provide the structure of the JSON to return.
     return jsonify(cafe={
-        "id": random_cafe.id,
+        # Omit the id from the response
+        # "id": random_cafe.id,
         "name": random_cafe.name,
         "map_url": random_cafe.map_url,
         "img_url": random_cafe.img_url,
         "location": random_cafe.location,
-        "seats": random_cafe.seats,
-        "has_toilet": random_cafe.has_toilet,
-        "has_wifi": random_cafe.has_wifi,
-        "has_sockets": random_cafe.has_sockets,
-        "can_take_calls": random_cafe.can_take_calls,
-        "coffee_price": random_cafe.coffee_price,
+
+        # Put some properties in a sub-category
+        "amenities": {
+            "seats": random_cafe.seats,
+            "has_toilet": random_cafe.has_toilet,
+            "has_wifi": random_cafe.has_wifi,
+            "has_sockets": random_cafe.has_sockets,
+            "can_take_calls": random_cafe.can_take_calls,
+            "coffee_price": random_cafe.coffee_price,
+        }
     })
 
-# Other method of serialising  the database row Object to JSON is first converting it to a dictionary
-# then using jsonify() to convert the dictionary (which is  similar in structure to JSON) to a JSON.
+    # Other method of serialising  the database row Object to JSON is first converting it to a dictionary
+    # then using jsonify() to convert the dictionary (which is  similar in structure to JSON) to a JSON.
 
 # HTTP POST - Create Record
 
