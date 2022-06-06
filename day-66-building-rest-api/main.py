@@ -61,6 +61,16 @@ def get_random_cafe():
     # Other method of serialising  the database row Object to JSON is first converting it to a dictionary
     # then using jsonify() to convert the dictionary (which is  similar in structure to JSON) to a JSON.
 
+# HTTP GET - All the Cafes
+@app.route("/all")
+def get_all_cafes():
+    cafes = Cafe.query.all()
+    # Use list comprehension
+    return jsonify(cafes=[cafe.to_dict() for cafe in cafes])
+
+# HTTP GET - Find a Cafe
+
+
 # HTTP POST - Create Record
 
 # HTTP PUT/PATCH - Update Record
