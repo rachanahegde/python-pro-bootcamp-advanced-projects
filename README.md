@@ -21,6 +21,9 @@ I built a top 10 movies website using Flask, WTForms, SQLite, and SQLAlchemy. It
 <h2> Day 66: Building Your Own API with RESTful Routing</h2>
 I learned to build a REST API from scratch using Flask and this API provides users with information on cafes in London.
 
+<h2> Day 67: Blog Capstone Project Part 3 – RESTful Routing </h2>
+I added HTTP routes to the previous code for the blog to enable the user to create new blog posts, edit posts and delete posts from inside the blog website.
+
 <h2> Day 71: Data Exploration with Pandas: College Major v.s. Your Salary </h2>
 This project involved learning about data exploration with Pandas by analysing the post-university salaries of graduates by major. Topics covered include cleaning data, selecting columns/rows/cells, sorting data and grouping data by category.
 
