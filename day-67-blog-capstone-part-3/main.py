@@ -103,8 +103,13 @@ def edit_post(post_id):
 
 # Delete blog posts
 @app.route("/delete/<int:post_id>")
-def delete_post():
-    pass
+def delete_post(post_id):
+    # Delete post from database
+    post_to_delete = BlogPost.query.get(post_id)
+    db.session.delete(post_to_delete)
+    db.session.commit()
+    # Redirect user to homepage
+    return redirect(url_for("get_all_posts"))
 
 
 @app.route("/about")
