@@ -52,6 +52,7 @@ def show_post(post_id):
     return render_template("post.html", post=requested_post)
 
 
+# Make new blog posts
 @app.route("/new-post", methods=["GET", "POST"])
 def make_post():
     form = CreatePostForm()
@@ -69,11 +70,40 @@ def make_post():
         db.session.commit()
         # Redirect to home page
         return redirect(url_for("get_all_posts"))
-    return render_template("make-post.html", form=form)
+    return render_template("make-post.html", form=form, post_header="New Post")
 
 
-@app.route("/edit_post")
-def edit_post():
+# Edit blog posts
+@app.route("/edit_post/<int:post_id>", methods=["GET", "POST"])
+def edit_post(post_id):
+    post = BlogPost.query.get(post_id)
+    # Auto-populate the fields in the WTForm with the blog post's data
+    # by passing the post object's properties when you create the form
+    edit_form = CreatePostForm(
+        title=post.title,
+        subtitle=post.subtitle,
+        img_url=post.img_url,
+        author=post.author,
+        body=post.body
+    )
+    # Note: HTML forms (WTForms included) do not accept PUT, PATCH or DELETE methods.
+    # Accept edited post as POST request when user clicks "Submit Post"
+    if edit_form.validate_on_submit():
+        # Update post in database
+        post.title = edit_form.title.data
+        post.subtitle = edit_form.subtitle.data
+        post.img_url = edit_form.img_url.data
+        post.author = edit_form.author.data
+        post.body = edit_form.body.data
+        db.session.commit()
+        # Redirect user to post.html page for that blog post
+        return redirect(url_for("show_post", post_id=post.id))
+    return render_template("make-post.html", form=edit_form, is_edit=True, post_header="Edit Post")
+
+
+# Delete blog posts
+@app.route("/delete/<int:post_id>")
+def delete_post():
     pass
 
 
