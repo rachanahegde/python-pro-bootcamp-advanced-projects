@@ -24,6 +24,9 @@ I learned to build a REST API from scratch using Flask and this API provides use
 <h2> Day 67: Blog Capstone Project Part 3 – RESTful Routing </h2>
 I added HTTP routes to the previous code for the blog to enable the user to create new blog posts, edit posts and delete posts from inside the blog website.
 
+<h2> Day 68: Authentication with Flask </h2>
+I learned how to login and register users on my Flask website with authentication to enable them to access their own private profile pages.
+
 <h2> Day 71: Data Exploration with Pandas: College Major v.s. Your Salary </h2>
 This project involved learning about data exploration with Pandas by analysing the post-university salaries of graduates by major. Topics covered include cleaning data, selecting columns/rows/cells, sorting data and grouping data by category.
 
