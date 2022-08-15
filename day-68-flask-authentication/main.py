@@ -21,6 +21,10 @@ class User(UserMixin, db.Model):
 # db.create_all()
 
 
+# Set up variable to store the user's name
+name = ""
+
+
 @app.route('/')
 def home():
     return render_template("index.html")
@@ -37,8 +41,11 @@ def register():
         # Save User object into the users.db to register new user
         db.session.add(new_user)
         db.session.commit()
+        # Update global variable
+        global name
+        name = new_user.name
         # Redirect user to secrets.html
-        return redirect(url_for("secrets", name=new_user.name))
+        return redirect(url_for("secrets"))
     return render_template("register.html")
 
 
@@ -48,7 +55,7 @@ def login():
 
 
 @app.route('/secrets')
-def secrets(name):
+def secrets():
     return render_template("secrets.html", name=name)
 
 
@@ -59,7 +66,9 @@ def logout():
 
 @app.route('/download')
 def download():
-    pass
+    # User downloads the cheat_sheet.pdf file
+    return send_from_directory(directory='static', filename='files/cheat_sheet.pdf')
+
 
 
 if __name__ == "__main__":
