@@ -15,7 +15,7 @@ db = SQLAlchemy(app)
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(100), unique=True)
-    password = db.Column(db.String(100))
+    password = db.Column(db.String(300))
     name = db.Column(db.String(1000))
 # Line below only required once, when creating DB
 # db.create_all()
@@ -37,7 +37,9 @@ def register():
         new_user = User()
         new_user.email = request.form['email']
         new_user.name = request.form['name']
-        new_user.password = request.form['password']
+        # Secure password by hashing and salting it before storage
+        hash_and_salted_password = generate_password_hash(request.form['password'], method='pbkdf2:sha256', salt_length=8)
+        new_user.password = hash_and_salted_password
         # Save User object into the users.db to register new user
         db.session.add(new_user)
         db.session.commit()
