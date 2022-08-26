@@ -5,10 +5,15 @@ from flask_login import UserMixin, login_user, LoginManager, login_required, cur
 
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = 'any-secret-key-you-choose'
+app.config['SECRET_KEY'] = '7eacf21af72212678a4fa90d1830deced9559d7da526450b114593356af61991'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+
+# Set up LoginManager class to allow application to use Flask-Login
+login_manager = LoginManager()
+# Configure app object for login
+login_manager.init_app(app)
 
 
 # CREATE TABLE IN DB
@@ -17,6 +22,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(300))
     name = db.Column(db.String(1000))
+
 # Line below only required once, when creating DB
 # db.create_all()
 
@@ -51,12 +57,33 @@ def register():
     return render_template("register.html")
 
 
-@app.route('/login')
+@app.route('/login', methods=["GET", "POST"])
 def login():
+    if request.method == "POST":
+        user = User()
+        # Login and validate the user
+        # user should be an instance of your `User` class
+        login_user(user)
+        password = request.form['password']
+        pwhash = generate_password_hash(password, method='pbkdf2:sha256', salt_length=8)
+        # Check the user's password
+        if check_password_hash(pwhash=pwhash, password=password):
+            # Redirect user to secrets.html
+            return redirect(url_for("secrets"))
     return render_template("login.html")
 
 
+@login_manager.user_loader
+def load_user(user_id):
+    return User.get(user_id)
+
+
+# Next - checks to see if the username and password match (against your database)
+# If authentication was successful you should pass an instance of the user to login_user()
+
+# Views that require the user to be logged in can be decorated with @login_required
 @app.route('/secrets')
+@login_required
 def secrets():
     return render_template("secrets.html", name=name)
 
