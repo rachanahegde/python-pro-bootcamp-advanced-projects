@@ -40,38 +40,51 @@ def home():
 @app.route('/register', methods=["GET", "POST"])
 def register():
     if request.method == "POST":
-        # Create a new User object with email, name and password using the form data
-        new_user = User()
-        new_user.email = request.form['email']
-        new_user.name = request.form['name']
         # Secure password by hashing and salting it before storage
         hash_and_salted_password = generate_password_hash(
             request.form['password'],
             method='pbkdf2:sha256',
             salt_length=8)
-        new_user.password = hash_and_salted_password
-        # Save User object into the users.db to register new user
-        db.session.add(new_user)
-        db.session.commit()
-        # Log in and authenticate user after adding details to database
-        login_user(new_user)
-        return redirect(url_for("secrets"))
-
+        # Check if user has  registered with this email
+        if User.query.filter_by(email=request.form['email']).first() is None:
+            # Create a new User object with email, name and password using the form data
+            new_user = User(
+                email=request.form.get('email'),
+                name=request.form.get('name'),
+                password=hash_and_salted_password,
+            )
+            # Save User object into the users.db to register new user
+            db.session.add(new_user)
+            db.session.commit()
+            # Log in and authenticate user after adding details to database
+            login_user(new_user)
+            return redirect(url_for("secrets"))
+        else:
+            # Redirect to login page and flash message to tell user they have already registered
+            error = "You've already signed up with that email, log in instead!"
+            return render_template('login.html', error=error)
     return render_template("register.html")
 
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
+    error = None
     if request.method == "POST":
         # Query User model to check if a user exists with the email provided
         user = User.query.filter_by(email=request.form['email']).first()
-        # Check stored password hash against entered password hashed.
-        if check_password_hash(pwhash=user.password, password=request.form['password']):
-            # Login and validate the user which should be an instance of your `User` class
-            login_user(user)
-            # Redirect user to secrets.html
-            return redirect(url_for("secrets"))
-    return render_template("login.html")
+        if user is None:
+            # Update error message to tell user email doesn't exist in database
+            error = 'This email does not exist, please try again'
+        else:
+            # Check stored password hash against entered password hashed.
+            if check_password_hash(pwhash=user.password, password=request.form['password']):
+                # Login and validate the user which should be an instance of your `User` class
+                login_user(user)
+                # Redirect user to secrets.html
+                return redirect(url_for("secrets"))
+            else:
+                error = 'Password incorrect, please try again.'
+    return render_template("login.html", error=error)
 
 
 # Views that require the user to be logged in can be decorated with @login_required
