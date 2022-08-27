@@ -16,6 +16,11 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(user_id)
+
+
 # CREATE TABLE IN DB
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -25,10 +30,6 @@ class User(UserMixin, db.Model):
 
 # Line below only required once, when creating DB
 # db.create_all()
-
-
-# Set up variable to store the user's name
-name = ""
 
 
 @app.route('/')
@@ -44,56 +45,51 @@ def register():
         new_user.email = request.form['email']
         new_user.name = request.form['name']
         # Secure password by hashing and salting it before storage
-        hash_and_salted_password = generate_password_hash(request.form['password'], method='pbkdf2:sha256', salt_length=8)
+        hash_and_salted_password = generate_password_hash(
+            request.form['password'],
+            method='pbkdf2:sha256',
+            salt_length=8)
         new_user.password = hash_and_salted_password
         # Save User object into the users.db to register new user
         db.session.add(new_user)
         db.session.commit()
-        # Update global variable
-        global name
-        name = new_user.name
-        # Redirect user to secrets.html
+        # Log in and authenticate user after adding details to database
+        login_user(new_user)
         return redirect(url_for("secrets"))
+
     return render_template("register.html")
 
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        user = User()
-        # Login and validate the user
-        # user should be an instance of your `User` class
-        login_user(user)
-        password = request.form['password']
-        pwhash = generate_password_hash(password, method='pbkdf2:sha256', salt_length=8)
-        # Check the user's password
-        if check_password_hash(pwhash=pwhash, password=password):
+        # Query User model to check if a user exists with the email provided
+        user = User.query.filter_by(email=request.form['email']).first()
+        # Check stored password hash against entered password hashed.
+        if check_password_hash(pwhash=user.password, password=request.form['password']):
+            # Login and validate the user which should be an instance of your `User` class
+            login_user(user)
             # Redirect user to secrets.html
             return redirect(url_for("secrets"))
     return render_template("login.html")
 
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.get(user_id)
-
-
-# Next - checks to see if the username and password match (against your database)
-# If authentication was successful you should pass an instance of the user to login_user()
-
 # Views that require the user to be logged in can be decorated with @login_required
 @app.route('/secrets')
 @login_required
 def secrets():
-    return render_template("secrets.html", name=name)
+    return render_template("secrets.html")
 
 
 @app.route('/logout')
+@login_required
 def logout():
-    pass
+    logout_user()
+    return redirect(url_for('home'))
 
 
 @app.route('/download')
+@login_required
 def download():
     # User downloads the cheat_sheet.pdf file
     return send_from_directory(directory='static', filename='files/cheat_sheet.pdf')
