@@ -73,12 +73,12 @@ def login():
         # Query User model to check if a user exists with the email provided
         user = User.query.filter_by(email=request.form['email']).first()
         if user is None:
-            # Update error message to tell user email doesn't exist in database
+            # Update error message for user
             error = 'This email does not exist, please try again'
         else:
-            # Check stored password hash against entered password hashed.
+            # Check stored password hash against entered password hashed
             if check_password_hash(pwhash=user.password, password=request.form['password']):
-                # Login and validate the user which should be an instance of your `User` class
+                # Login and validate the user
                 login_user(user)
                 # Redirect user to secrets.html
                 return redirect(url_for("secrets"))
